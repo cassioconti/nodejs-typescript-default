@@ -1,8 +1,8 @@
-import express = require('express');
-let app = express();
+import express = require("express");
+const app = express();
 
-app.get('/', function (request, response) {
-    response.send('Hello World, Node.js!');
+app.get("/", (request, response) => {
+    response.send("Hello World, Node.js!");
 });
 
 app.listen(process.env.PORT || 8080);
