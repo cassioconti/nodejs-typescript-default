@@ -1,0 +1,1 @@
+$ gcloud app deploy --version v1 --project [PROJECT-ID]
