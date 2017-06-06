@@ -7,4 +7,5 @@ app.get("/hello", (request, response) => {
     response.send("Hello World, Node.js!");
 });
 
-app.listen(process.env.PORT || 8080);
+const listener = app.listen(process.env.PORT || 8080);
+console.log("Listening on port " + listener.address().port);

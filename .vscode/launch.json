@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceRoot}\\app\\index.js",
+            "program": "${workspaceRoot}\\dist\\index.js",
             "outFiles": [
                 "${workspaceRoot}/out/**/*.js"
             ]
