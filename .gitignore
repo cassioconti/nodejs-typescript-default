@@ -1,2 +1,5 @@
-/node_modules
-/dist
+node_modules/*
+dist/*
+certificate/*
+app/resources/query.txt
+app/resources/properties.json
