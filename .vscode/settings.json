@@ -1,3 +1,6 @@
 {
-    "vsicons.presets.angular": false
+    "search.exclude": {
+        "dist/*.js": true
+    },
+    "typescript.referencesCodeLens.enabled": true
 }
