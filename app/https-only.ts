@@ -1,7 +1,7 @@
 import { NextFunction, Request, RequestHandler, Response } from "@types/express";
 
 export class HttpsOnly {
-    public filter(req: Request, res: Response, next: NextFunction): void {
+    public filter = (req: Request, res: Response, next: NextFunction): void => {
         console.log(req.hostname);
         console.log(req.url);
         console.log(req.get("X-Forwarded-Proto"));

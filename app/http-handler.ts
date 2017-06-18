@@ -36,13 +36,13 @@ export class HttpHandler {
 
         // Configure the request
         const options = {
+            headers,
             json: {
                 filter: query,
                 orderBy: "timestamp desc",
                 pageSize: 1000,
                 resourceNames: [this.properties.projectId],
             },
-            headers,
             method: "POST",
             url: "https://logging.googleapis.com/v2/entries:list",
         };
