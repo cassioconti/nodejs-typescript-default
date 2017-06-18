@@ -1,3 +1,5 @@
+import { Response } from "@types/express";
+
 import request = require("request");
 import fs = require("fs");
 
@@ -8,24 +10,31 @@ export class HttpHandler {
         this.properties = JSON.parse(fs.readFileSync("app/resources/properties.json", "utf8"));
     }
 
-    public postTokenRequest = (token: string, callback: (body: string) => any): void => {
+    public redirectAuthRequest = (response: Response): void => {
+        // Start the request
+        response.redirect("https://accounts.google.com/o/oauth2/v2/auth" +
+            "?client_id=" + this.properties.clientId +
+            "&redirect_uri=" + this.properties.baseUrl + "/callback" +
+            "&response_type=code" +
+            "&scope=https://www.googleapis.com/auth/logging.read" +
+            "&state=state_parameter_passthrough_value");
+    }
+
+    public postTokenRequest = (code: string, callback: (body: string) => any): void => {
         // Configure the request
         const options = {
             form: {
-                assertion: token,
-                grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
+                client_id: this.properties.clientId,
+                client_secret: this.properties.clientSecret,
+                code,
+                grant_type: "authorization_code",
+                redirect_uri: this.properties.baseUrl + "/callback",
             },
             method: "POST",
             url: "https://www.googleapis.com/oauth2/v4/token",
         };
 
-        // Start the request
-        request(options, (error, response, body): void => {
-            console.log("error:", error);
-            console.log("statusCode:", response && response.statusCode);
-            console.log("body:", body);
-            callback(body);
-        });
+        this.doRequest(options, callback);
     }
 
     public post = (query: string, token: string, callback: (body: string) => any): void => {
@@ -47,6 +56,10 @@ export class HttpHandler {
             url: "https://logging.googleapis.com/v2/entries:list",
         };
 
+        this.doRequest(options, callback);
+    }
+
+    private doRequest = (options: any, callback: (body: string) => any): void => {
         // Start the request
         request(options, (error, response, body): void => {
             console.log("error:", error);
